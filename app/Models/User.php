@@ -44,6 +44,11 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+
+    protected $with = [
+        'profile',
+    ];
+
     public function profile()
     {
         return $this->belongsTo(Profile::class);
