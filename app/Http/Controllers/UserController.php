@@ -13,7 +13,6 @@ class UserController extends Controller
     {
         $users = User::all();
         return $users;
-        // return view('users.index', compact('users'));
     }
 
     public function create()
@@ -30,12 +29,17 @@ class UserController extends Controller
             'profile_id' => $request->input('profile_id'),
         ]);
         
-        return redirect()->route('users.index')->with('success', 'Usuário criado com sucesso.');
+        
     }
 
     public function edit(User $user)
     {
         return view('users.edit', compact('user'));
+    }
+
+    public function show(User $user)
+    {
+        return $user;
     }
 
     public function update(Request $request, User $user)
@@ -46,13 +50,11 @@ class UserController extends Controller
             'profile_id' => $request->input('profile_id'),
         ]);
 
-        return redirect()->route('users.index')->with('success', 'Usuário atualizado com sucesso.');
     }
 
     public function destroy(User $user)
     {
         $user->delete();
-        // return redirect()->route('users.index')->with('success', 'Usuário excluído com sucesso.');
     }
 
     public function login(Request $request)
@@ -65,9 +67,6 @@ class UserController extends Controller
         if (!Auth::attempt($loginData)) {
             return response(['message' => 'Invalid credentials'], 401);
         }
-
-        // $accessToken = Auth::user()->createToken('authToken')->accessToken;
-
-        return response(['user' => Auth::user()]);
+        return response(Auth::user());
     }
 }
